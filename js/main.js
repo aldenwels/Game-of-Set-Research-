@@ -60,11 +60,14 @@ return v;
 function printDeck(deck){
 for(var card in deck){
 
-document.write("Card " + card + ": Shape: " + deck[card].shape + " Shading: " + deck[card].shading + " Number: " + deck[card].number + " Color: " + deck[card].color + "<br />");
+console.log("Card " + card + ": Shape: " + deck[card].shape + " Shading: " + deck[card].shading + " Number: " + deck[card].number + " Color: " + deck[card].color + "<br />");
 }
 
 }
-function setup(){}
+function setup(){
+  var myCanvas = createCanvas(600, 400);
+  myCanvas.parent('canvas');
+}
 function draw() {
 ellipse(50, 50, 80, 80);
 }
@@ -74,5 +77,3 @@ game.generateDeck();
 printDeck(game.deck);
 game.deck = shuffle(game.deck);
 printDeck(game.deck);
-setup();
-draw();
