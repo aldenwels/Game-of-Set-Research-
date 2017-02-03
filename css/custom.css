@@ -1,0 +1,13 @@
+/* CUSTOM CSS */
+.columns{
+  height: 400px;
+  border: 1px solid #000;
+}
+
+#canvas{
+  width:  100%;
+}
+
+.top-bar h2{
+  color: white;
+}
