@@ -2,24 +2,24 @@
 
 
 var shapes = [
-  "Rectangle": [vertex];
-  "Circle",
-  "Triangle"
+  "rectangle",
+  "circle",
+  "triangle"
 ];
 var shadings = [
-  "Blank",
-  "Stripes",
-  "Fill"
+  "blank",
+  "striped",
+  "fill"
 ];
 var colors = [
-  "Blue",
-  "Red",
-  "Green"
+  "blue",
+  "red",
+  "green"
 ];
 var numbers = [
-  "one",
-  "two",
-  "three"
+  "1",
+  "2",
+  "3"
 ];
 var numCards = 81;
 
@@ -30,7 +30,8 @@ function Game(){
       for(var sh in shadings){
         for(var c in colors){
           for(var n in numbers){
-            this.deck.push(new Card(shapes[s], shadings[sh], colors[c], numbers[n]));
+            var url = "images/" + shapes[s] + "_" + colors[c] + "_" + shadings[sh] + "_" + numbers[n] + ".png";
+            this.deck.push(new Card(shapes[s], shadings[sh], colors[c], numbers[n],url));
             //document.write("Shape: " + card.shape + "Shading: " + card.shading + "Number: " + card.number + "Color: " + card.color);
             //document.write("Shape: " + s + "Shading: " + sh + "Number: " + n + "Color: " + c);
           }
@@ -39,50 +40,33 @@ function Game(){
     }
   };
 }
-  function Card(shape, shading, color, number){
+function Card(shape, shading, color, number, image){
     this.shape = shape;
     this.shading = shading;
     this.number = number;
     this.color = color;
-
-    this.displayCard = function(shape,shading,number,color){
-      var func = "";
-
-      if(shape == "Rectangle")
-        func = rect(50, 50, 80, 80);
-    }
-  }
-
+    this.imageSource = image;
+}
 //+ Jonas Raoni Soares Silva
 //@ http://jsfromhell.com/array/shuffle [rev. #1]
 
 var shuffle = function(v){
-for(var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
-return v;
-};
+  for(var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
+    return v;
+  };
+
+
 function printDeck(deck){
-for(var card in deck){
-
-console.log("Card " + card + ": Shape: " + deck[card].shape + " Shading: " + deck[card].shading + " Number: " + deck[card].number + " Color: " + deck[card].color + "<br />");
+  for(var card in deck){
+    $(".cards").append("<img src='" + deck[card].imageSource + "'></img>")
+    console.log("Card " + card + ": Shape: " + deck[card].shape + " Shading: " + deck[card].shading + " Number: " + deck[card].number + " Color: " + deck[card].color + "<br />");
+  }
 }
 
+function main(){
+  var game = new Game();
+  game.generateDeck();
+  printDeck(game.deck);
+  game.deck = shuffle(game.deck);
+  printDeck(game.deck);
 }
-function setup(){
-  var myCanvas = createCanvas(600, 400);
-}
-function draw() {
-noFill();
-beginShape();
-fill(255, 204, 0);
-vertex(30, 20);
-vertex(85, 20);
-vertex(85, 75);
-vertex(30, 75);
-endShape(CLOSE);
-}
-
-var game = new Game();
-game.generateDeck();
-printDeck(game.deck);
-game.deck = shuffle(game.deck);
-printDeck(game.deck);
