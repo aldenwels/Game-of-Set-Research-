@@ -1,5 +1,8 @@
+
+
+
 var shapes = [
-  "Rectangle",
+  "Rectangle": [vertex];
   "Circle",
   "Triangle"
 ];
@@ -66,10 +69,16 @@ console.log("Card " + card + ": Shape: " + deck[card].shape + " Shading: " + dec
 }
 function setup(){
   var myCanvas = createCanvas(600, 400);
-  myCanvas.parent('canvas');
 }
 function draw() {
-ellipse(50, 50, 80, 80);
+noFill();
+beginShape();
+fill(255, 204, 0);
+vertex(30, 20);
+vertex(85, 20);
+vertex(85, 75);
+vertex(30, 75);
+endShape(CLOSE);
 }
 
 var game = new Game();
