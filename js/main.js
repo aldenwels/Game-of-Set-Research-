@@ -33,7 +33,7 @@ function Game(){
             var url = "images/" + shapes[s] + "_" + colors[c] + "_" + shadings[sh] + "_" + numbers[n] + ".png";
             this.deck.push(new Card(shapes[s], shadings[sh], colors[c], numbers[n],url));
             //document.write("Shape: " + card.shape + "Shading: " + card.shading + "Number: " + card.number + "Color: " + card.color);
-            //document.write("Shape: " + s + "Shading: " + sh + "Number: " + n + "Color: " + c);
+            //console.log("Shape: " + shapes[s] + "Shading: " + shadings[sh] + "Number: " + numbers[n] + "Color: " + colors[c]);
           }
         }
       }
@@ -58,15 +58,17 @@ var shuffle = function(v){
 
 function printDeck(deck){
   for(var card in deck){
-    $(".cards").append("<img src='" + deck[card].imageSource + "'></img>")
-    console.log("Card " + card + ": Shape: " + deck[card].shape + " Shading: " + deck[card].shading + " Number: " + deck[card].number + " Color: " + deck[card].color + "<br />");
+    if(card < 9){   //display nine at a time(for now)
+      $(".cards").append("<img src='" + deck[card].imageSource + "'></img>")
+      console.log("Card " + card + ": Shape: " + deck[card].shape + " Shading: " + deck[card].shading + " Number: " + deck[card].number + " Color: " + deck[card].color + "<br />");
+    }
   }
 }
 
 function main(){
   var game = new Game();
-  game.generateDeck();
-  printDeck(game.deck);
-  game.deck = shuffle(game.deck);
-  printDeck(game.deck);
+  game.generateDeck();  //generate deck
+  //printDeck(game.deck);
+  game.deck = shuffle(game.deck); //shuffle game deck
+  printDeck(game.deck); //print deck to screen
 }
