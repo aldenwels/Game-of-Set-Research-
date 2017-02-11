@@ -1,6 +1,5 @@
 
 
-
 var shapes = [
   "rectangle",
   "circle",
@@ -22,6 +21,9 @@ var numbers = [
   "3"
 ];
 var numCards = 81;
+
+
+
 
 function Game(){
   this.deck = [];
