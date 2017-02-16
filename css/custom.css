@@ -1,5 +1,40 @@
-img{
+.cards img{
+
   height: 100px;
   width: 100px;
+  border: 1px solid #000;
+
+  position: relative;
+  float: left;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 20px;
+  border-radius: 10px;
+  background: #fff;
+  -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+  box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+
+
+
+
+
+
+    /*display: table-cell; */
+    /*height: 135px;
+    width: 100px; */
+    vertical-align: middle;
+    align: center;
+    padding: 10px;
+    /*background: url(../images/card.png) no-repeat;*/
+}
+img:hover {
+	background-color: #d3d3d3;
+}
+
+#canvas {
+	width: 100%;
+}
+.columns{
+  height: 400px;
   border: 1px solid #000;
 }

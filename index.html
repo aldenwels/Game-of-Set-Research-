@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script type="text/javascript">
+
+    //instatiate socket
+    var socket = io();
+
+    //log random number
+    var random = Math.random();
+    console.log(random);
+
+    //log message from server
+    socket.on('serverMsg',function(data){
+        console.log(data.msg);
+    });
+    </script>
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/foundation.css">
+  </head>
+  <body onload="main()">
+    <div class="row top-bar">
+        <h2 style = "color:white;">Game of Set</h2>
+      </div>
+      <div class="row">
+        <div class="large-2 columns">
+          <ul>
+            <li>Player 1</li>
+          </ul>
+        </div>
+        <div class="large-4 large-centered columns end">
+          <div id="canvas"></div>
+          <div class="cards">
+        </div>
+      </div>
+  </body>
+</html>
