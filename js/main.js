@@ -1,3 +1,16 @@
+/*
+    Instead of immediately generate random ask player to generate new game when they pick their mode
+    so that can call seperate functions
+    For instance a room is created for that one player with their own game.html
+
+    Rooms:
+    Single-x
+    Multi-n
+
+*/
+
+
+
 var shapes = [
   "rectangle",
   "circle",
@@ -24,6 +37,7 @@ var numCards = 81;
 
 
 function Game(){
+  var i = 1;
   this.deck = [];
   this.generateDeck = function(){
     for(var s in shapes){
@@ -31,7 +45,8 @@ function Game(){
         for(var c in colors){
           for(var n in numbers){
             var url = "images/" + shapes[s] + "_" + colors[c] + "_" + shadings[sh] + "_" + numbers[n] + ".png";
-            this.deck.push(new Card(shapes[s], shadings[sh], colors[c], numbers[n],url));
+            this.deck.push(new Card(shapes[s], shadings[sh], colors[c], numbers[n],url,i));
+            i++;
             //document.write("Shape: " + card.shape + "Shading: " + card.shading + "Number: " + card.number + "Color: " + card.color);
             //console.log("Shape: " + shapes[s] + "Shading: " + shadings[sh] + "Number: " + numbers[n] + "Color: " + colors[c]);
           }
@@ -40,12 +55,13 @@ function Game(){
     }
   };
 }
-function Card(shape, shading, color, number, image){
+function Card(shape, shading, color, number, image,id){
     this.shape = shape;
     this.shading = shading;
     this.number = number;
     this.color = color;
     this.imageSource = image;
+    this.id = "card-" + id;
 }
 //+ Jonas Raoni Soares Silva
 //@ http://jsfromhell.com/array/shuffle [rev. #1]
@@ -58,8 +74,9 @@ var shuffle = function(v){
 
 function printDeck(deck){
   for(var card in deck){
-    if(card < 9){   //display nine at a time(for now)
-      $(".cards").append("<img src='" + deck[card].imageSource + "'></img>")
+    if(card < 9){
+      //display nine at a time(for now)
+      $(".cards").append("<img src='" + deck[card].imageSource + "' onclick='"+ funct +"' id = '" + deck[card].id + "' </img>");
       console.log("Card " + card + ": Shape: " + deck[card].shape + " Shading: " + deck[card].shading + " Number: " + deck[card].number + " Color: " + deck[card].color + "<br />");
     }
   }

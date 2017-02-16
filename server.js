@@ -20,6 +20,8 @@ console.log("Server started.");
 
 //array that holds each socket
 var SOCKET_LIST = [];
+var multiplayerRoom = 1;
+var singleplayerRoom = 1;
 
 var io = require('socket.io')(serv,{});
 io.sockets.on('connection', function(socket){
@@ -33,8 +35,20 @@ io.sockets.on('connection', function(socket){
        msg:'hello',
    });
    //disconnect socket
-    socket.on('disconnect',function(){
+    socket.on('disconnect',function(socket){
         delete SOCKET_LIST[socket.id];
+    });
+
+    socket.on('singleplayer',function(data){
+      console.log(data.msg);
+      socket.join("single-"+singleplayerRoom);
+      io.sockets.in("single-"+singleplayerRoom).emit('connectToRoom', "You are in Single room no. "+singleplayerRoom);
+    });
+
+    socket.on('multiplayer',function(data){
+      console.log(data.msg);
+      socket.join("multi-"+multiplayerRoom);
+      io.sockets.in("multi-"+multiplayerRoom).emit('connectToRoom', "You are in  Multi room no. "+multiplayerRoom);
     });
 
 });
