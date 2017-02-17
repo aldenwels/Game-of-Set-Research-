@@ -27,9 +27,10 @@
     padding: 10px;
     /*background: url(../images/card.png) no-repeat;*/
 }
-img:hover {
+img:hover, img.shaded {
 	background-color: #d3d3d3;
 }
+
 
 #canvas {
 	width: 100%;

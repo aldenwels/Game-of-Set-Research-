@@ -31,11 +31,11 @@ $(document).ready(function() {
             msg: 'chose multi'
         });
 
-        main();
+        console.log("You just joined the room");
         $(".game").show();
     });
 });
 
-socket.on('connectToRoom',function(data){
-  console.log(data);
+socket.on('connectToRoom', function(data) {
+    console.log(data);
 });

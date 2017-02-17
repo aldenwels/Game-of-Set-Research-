@@ -35,9 +35,8 @@ var numCards = 81;
 
 
 
-
+var i = 1;
 function Game(){
-  var i = 1;
   this.deck = [];
   this.generateDeck = function(){
     for(var s in shapes){
@@ -76,16 +75,20 @@ function printDeck(deck){
   for(var card in deck){
     if(card < 9){
       //display nine at a time(for now)
-      $(".cards").append("<img src='" + deck[card].imageSource + "' onclick='"+ funct +"' id = '" + deck[card].id + "' </img>");
+      $(".cards").append("<img src='" + deck[card].imageSource + "' id = '" + deck[card].id + "' </img>");
       console.log("Card " + card + ": Shape: " + deck[card].shape + " Shading: " + deck[card].shading + " Number: " + deck[card].number + " Color: " + deck[card].color + "<br />");
     }
   }
 }
-
+var game;
 function main(){
-  var game = new Game();
+  game = new Game();
   game.generateDeck();  //generate deck
   //printDeck(game.deck);
   game.deck = shuffle(game.deck); //shuffle game deck
   printDeck(game.deck); //print deck to screen
+  printCurrentCards();
+  $(".cards > img").click(function(){
+    cardPicked($(this).attr('id'));
+  });
 }
