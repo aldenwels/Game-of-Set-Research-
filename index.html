@@ -6,24 +6,24 @@
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-    <script type="text/javascript">
-
-    //instatiate socket
-    var socket = io();
-
-    //log random number
-    var random = Math.random();
-    console.log(random);
-
-    //log message from server
-    socket.on('serverMsg',function(data){
-        console.log(data.msg);
-    });
-    </script>
+    <script type="text/javascript" src="js/client.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
     <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="css/foundation.css">
   </head>
-  <body onload="main()">
+  <body>
+    <!-- Section to pick option -->
+    <div class="row pickMode">
+        <div class="large-6 large-centered columns">
+            <h2>PICK MODE</h2>
+            <a id="single">Single Player</a>
+            <a id="multi">Multi Player</a>
+        </div>
+    </div>
+    <!-- -->
+
+    <!--Main game section -->
+    <secton class="game">
     <div class="row top-bar">
         <h2 style = "color:white;">Game of Set</h2>
       </div>
@@ -38,5 +38,7 @@
           <div class="cards">
         </div>
       </div>
+    </section>
+      <!-- End main game section -->
   </body>
 </html>
