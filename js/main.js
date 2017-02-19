@@ -2,11 +2,9 @@
     Instead of immediately generate random ask player to generate new game when they pick their mode
     so that can call seperate functions
     For instance a room is created for that one player with their own game.html
-
     Rooms:
     Single-x
     Multi-n
-
 */
 
 
