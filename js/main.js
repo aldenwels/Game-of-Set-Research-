@@ -8,7 +8,6 @@
 */
 
 
-
 var shapes = [
   "rectangle",
   "circle",
