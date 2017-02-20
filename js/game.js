@@ -65,16 +65,18 @@ function checkIfSet(){
     }
   }
   console.log(setCheck);
-  var isSet = false;
+  var isSet = true;
   for(var prop in setCheck){
     if(allValuesSame(setCheck[prop]) || unique(setCheck[prop])){
       console.log(prop + " satisfies");
+      removeSet();
     }
     else{
       console.log(prop + " does not satisfy");
       isSet = false;
+      removeSet();
     }
-      
+
   }
   if(isSet)
     console.log("Cards selected are a set");
@@ -104,6 +106,12 @@ function unique(arr){
     if(arr[i] == arr[0])
             return false;
   }
-
   return true;
+}
+
+function removeSet(){
+  for(var i = 0; i < cardsPicked.length; i++){
+    $("#"+cardsPicked[i].id).toggleClass("shaded");
+  }
+  cardsPicked = [];
 }
