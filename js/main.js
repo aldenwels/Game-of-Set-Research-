@@ -78,25 +78,16 @@ function printDeck() {
             $(".cards").append("<img src='" + deck[card].imageSource + "' id = '" + deck[card].id + "' </img>");
             console.log("Card " + card + ": Shape: " + deck[card].shape + " Shading: " + deck[card].shading + " Number: " + deck[card].number + " Color: " + deck[card].color + "<br />");
             cardsDealt.push(deck[card]);
-            //remove card from deck since is dealt
-            var rIndex = deck.indexOf(deck[card]);
-            console.log(rIndex);
-            deck.splice(rIndex,1);
-            console.log(deck);
         }
     }
 }
 
 function replaceSet(ids) {
-    console.log("replacing");
     var newSet = [];
     for (var card in deck) {
         if (newSet.length < 3) {
             if (cardsDealt.includes(deck[card]) == false) {
                 newSet.push(deck[card]);
-                //remove dealt card from deck
-                var rIndex = deck.indexOf(deck[card]);
-                deck.splice(rIndex,1);
             }
         }
     }
