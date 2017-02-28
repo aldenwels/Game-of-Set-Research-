@@ -38,6 +38,8 @@ var i = 1;
 function Game() {
     this.deck = [];
     this.generateDeck = function() {
+        //generates deck based on 4 arrays of properties and creates new card based on the image corresponding to
+        //those properties
         for (var s in shapes) {
             for (var sh in shadings) {
                 for (var c in colors) {
@@ -45,8 +47,6 @@ function Game() {
                         var url = "images/" + shapes[s] + "_" + colors[c] + "_" + shadings[sh] + "_" + numbers[n] + ".png";
                         this.deck.push(new Card(shapes[s], shadings[sh], colors[c], numbers[n], url, i));
                         i++;
-                        //document.write("Shape: " + card.shape + "Shading: " + card.shading + "Number: " + card.number + "Color: " + card.color);
-                        //console.log("Shape: " + shapes[s] + "Shading: " + shadings[sh] + "Number: " + numbers[n] + "Color: " + colors[c]);
                     }
                 }
             }
@@ -66,6 +66,7 @@ function Card(shape, shading, color, number, image, id) {
 //@ http://jsfromhell.com/array/shuffle [rev. #1]
 
 var shuffle = function(v) {
+    //v id the deck
     for (var j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
     return v;
 };
@@ -78,21 +79,26 @@ function printDeck() {
             $(".cards").append("<img src='" + deck[card].imageSource + "' id = '" + deck[card].id + "' </img>");
             console.log("Card " + card + ": Shape: " + deck[card].shape + " Shading: " + deck[card].shading + " Number: " + deck[card].number + " Color: " + deck[card].color + "<br />");
             cardsDealt.push(deck[card]);
+            var r = deck.indexOf(deck[card]);
+            deck.splice(r,1);
         }
     }
 }
 
-function replaceSet(ids) {
+function replaceSet(setToRemove) {
     var newSet = [];
     for (var card in deck) {
         if (newSet.length < 3) {
             if (cardsDealt.includes(deck[card]) == false) {
                 newSet.push(deck[card]);
+                cardsDealt.push(deck[card]);
+                //var r = deck.indexOf(deck[card]);
+                deck.splice(card,1);
             }
         }
     }
     for (var i = 0; i < newSet.length; i++) {
-        $("#" + ids[i]).attr("id", newSet[i].id);
+        $("#" + setToRemove[i].id).attr("id", newSet[i].id);
         $("#" + newSet[i].id).attr('src', newSet[i].imageSource);
         $("#" + newSet[i].id).toggleClass("shaded");
     }
@@ -102,14 +108,22 @@ var game;
 var deck;
 
 function main() {
+    //create new game
     game = new Game();
-    game.generateDeck(); //generate deck
+    //generate deck
+    game.generateDeck();
     //printDeck(game.deck);
     game.deck = shuffle(game.deck); //shuffle game deck
+    //set game.deck to global variable
     deck = game.deck;
-    printDeck(game.deck); //print deck to screen
+    //print deck which puts initial nine cards on board
+    printDeck(game.deck);
+
     printCurrentCards();
+
+    //event handler for clicking on card
     $(".cards > img").click(function() {
+        //call function that adds to array of cards picked so far
         cardPicked($(this).attr('id'));
     });
 }
