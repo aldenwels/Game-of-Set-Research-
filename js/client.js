@@ -9,7 +9,7 @@ console.log(random);
 socket.on('serverMsg', function(data) {
     console.log(data.msg);
 });
-
+var multiConnections;
 //send message to server when player mode is picked
 $(document).ready(function() {
     $("#single").click(function() {
@@ -31,8 +31,18 @@ $(document).ready(function() {
             msg: 'chose multi'
         });
 
-        console.log("You just joined the room");
-        $(".game").show();
+        socket.on('multiConnections',function(data){
+          console.log("multi" + data.msg);
+          multiConnections = data.msg;
+          multiConnections = parseInt(multiConnections);
+          if(multiConnections <= 1){
+              $(".game").show();
+          }
+          else if(multiConnections > 1){
+            $(".choose-multi").show();
+          }
+        });
+
     });
 });
 

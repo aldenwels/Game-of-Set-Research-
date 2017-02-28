@@ -43,3 +43,6 @@ img:hover, img.shaded {
 .game{
   display: none;
 }
+.choose-multi{
+  display: none;
+}

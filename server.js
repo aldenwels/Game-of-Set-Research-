@@ -22,6 +22,8 @@ console.log("Server started.");
 var SOCKET_LIST = [];
 var multiplayerRoom = 1;
 var singleplayerRoom = 1;
+var singleConnections = 0;
+var multiConnections = 0;
 
 var io = require('socket.io')(serv, {});
 io.sockets.on('connection', function(socket) {
@@ -41,14 +43,23 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('singleplayer', function(data) {
         console.log(data.msg);
+        var room = "single-" + singleplayerRoom;
         socket.join("single-" + singleplayerRoom);
         io.sockets.in("single-" + singleplayerRoom).emit('connectToRoom', "You are in Single room no. " + singleplayerRoom);
+        singleplayerRoom++;
     });
 
     socket.on('multiplayer', function(data) {
         console.log(data.msg);
-        socket.join("multi-" + multiplayerRoom);
-        io.sockets.in("multi-" + multiplayerRoom).emit('connectToRoom', "You are in  Multi room no. " + multiplayerRoom);
+        multiConnections++;
+        socket.emit('multiConnections',{
+          msg: multiConnections
+        });
+        if(multiConnections ==  1){
+          socket.join("multi-" + multiplayerRoom);
+          io.sockets.in("multi-" + multiplayerRoom).emit('connectToRoom', "You are in  Multi room no. " + multiplayerRoom);
+        }
+
     });
 
 });
