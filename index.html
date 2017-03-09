@@ -5,9 +5,11 @@
     <title></title>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/oracle.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     <script type="text/javascript" src="js/client.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
+
     <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="css/foundation.css">
   </head>
@@ -26,7 +28,7 @@
       <h2>Available Games: </h2>
     </section>
 
-    
+
     <!--Main game section -->
     <secton class="game">
     <div class="row top-bar">
@@ -38,9 +40,10 @@
             <li>Player 1</li>
             <li><input type="button" name="addSet" value="Add Set" id="addSet"></li>
             <li id="score">Score: 0</li>
+            <li id="numSets">Possible Combinations: </li>
           </ul>
         </div>
-        <div class="large-4 large-centered columns end">
+        <div class="large-8 large-centered columns end">
           <div class="cards">
         </div>
       </div>
