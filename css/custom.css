@@ -27,10 +27,9 @@
     padding: 10px;
     /*background: url(../images/card.png) no-repeat;*/
 }
-img:hover, img.shaded {
+img:hover {
 	background-color: #d3d3d3;
 }
-
 
 #canvas {
 	width: 100%;
@@ -38,11 +37,4 @@ img:hover, img.shaded {
 .columns{
   height: 400px;
   border: 1px solid #000;
-}
-
-.game{
-  display: none;
-}
-.choose-multi{
-  display: none;
 }
