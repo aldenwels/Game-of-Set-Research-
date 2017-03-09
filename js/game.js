@@ -78,10 +78,7 @@ function checkIfSet() {
     //check the 3 cards satisfy the all different or all same conditions for each property
     var isSet = true;
     for (var prop in setCheck) {
-        if (allValuesSame(setCheck[prop]) || unique(setCheck[prop])) {
-            console.log(prop + " satisfies");
-        } else {
-            console.log(prop + " does not satisfy");
+        if (!allValuesSame(setCheck[prop]) && !unique(setCheck[prop])) {
             isSet = false;
         }
 
@@ -89,6 +86,8 @@ function checkIfSet() {
     if (isSet) {
         console.log("Cards selected are a set");
         score += 5;
+        $('#score').html("Score: " + score);
+        setCount = 0;   //reset set counter
         replaceSet(cardsPicked);
         removeSet();
         //remove in main
@@ -102,12 +101,14 @@ function checkIfSet() {
     //unshade the 3 cards, display message saying 'not a set'
 }
 
+
 //checks if all values in array are the same
 function allValuesSame(arr) {
-    for (var i = 1; i < arr.length; i++) {
-        if (arr[i] != arr[0]) {
-            //console.log(arr[i] + " does not equal " + arr[0]);
-            return false;
+    for (var i = 0; i < arr.length; i++){
+        for(var j = i + 1; j < arr.length; j++ ) {
+            if (arr[i] !== arr[j]) {
+                return false;
+            }
         }
     }
 
@@ -115,10 +116,14 @@ function allValuesSame(arr) {
 }
 //checks if all values are unique
 function unique(arr) {
-    for (var i = 1; i < arr.length; i++) {
-        if (arr[i] == arr[0])
-            return false;
+    for (var i = 0; i < arr.length; i++){
+        for(var j = i + 1; j < arr.length; j++){
+            if (arr[i] === arr[j]){
+                return false;
+            }
+        }
     }
+    
     return true;
 }
 
@@ -137,6 +142,7 @@ function addSetToDealt() {
     for (var card in deck) {
         if (card < 3) {
             $(".cards").append("<img src='" + deck[card].imageSource + "' id = '" + deck[card].id + "' </img>");
+            currentCards.push(deck[card]);
             cardsDealt.push(deck[card]);
             $("#" + deck[card].id).click(function() {
                 cardPicked($(this).attr('id'));
@@ -145,4 +151,5 @@ function addSetToDealt() {
             deck.splice(card, 1);
         }
     }
+    possibleCombinations(currentCards);
 }

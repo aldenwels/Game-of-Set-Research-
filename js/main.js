@@ -8,7 +8,7 @@
 */
 
 var cardsDealt = [];
-
+var currentCards = [];
 var shapes = [
     "rectangle",
     "circle",
@@ -78,11 +78,13 @@ function printDeck() {
             //display nine at a time(for now)
             $(".cards").append("<img src='" + deck[card].imageSource + "' id = '" + deck[card].id + "' </img>");
             console.log("Card " + card + ": Shape: " + deck[card].shape + " Shading: " + deck[card].shading + " Number: " + deck[card].number + " Color: " + deck[card].color + "<br />");
+            currentCards.push(deck[card]);
             cardsDealt.push(deck[card]);
             var r = deck.indexOf(deck[card]);
             deck.splice(r,1);
         }
     }
+     possibleCombinations(currentCards);
 }
 
 function replaceSet(setToRemove) {
@@ -98,10 +100,16 @@ function replaceSet(setToRemove) {
         }
     }
     for (var i = 0; i < newSet.length; i++) {
+        //remove from currentCards
+        var r = currentCards.indexOf(setToRemove[i]);
+        currentCards.splice(r,1);
+        currentCards.push(newSet[i]);
+        //add to screen
         $("#" + setToRemove[i].id).attr("id", newSet[i].id);
         $("#" + newSet[i].id).attr('src', newSet[i].imageSource);
         $("#" + newSet[i].id).toggleClass("shaded");
     }
+    possibleCombinations(currentCards);
 }
 
 var game;
