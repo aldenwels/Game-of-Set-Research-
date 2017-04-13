@@ -9,7 +9,6 @@
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     <script type="text/javascript" src="js/client.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
-
     <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="css/foundation.css">
   </head>
@@ -17,9 +16,26 @@
     <!-- Section to pick option -->
     <div class="row pickMode">
         <div class="large-6 large-centered columns">
+            <ul>
+              <h4>Name:</h4>
+              <input type="text" name="" value="" id="name">
+              <h4>Experience</h4>
+              <select class="" name="experience" id="experience">
+                <option>Beginner</option>
+                <option>Intermediate</option>
+                <option>Expert</option>
+              </select>
+              <select class="" name="gender" id="gender">
+                <option>man</option>
+                <option>woman</option>
+                <option>non-binary</option>
+                <option>N/A</option>
+              </select>
+            </ul>
             <h2>PICK MODE</h2>
             <a id="single">Single Player</a>
             <a id="multi">Multi Player</a>
+            <a id="singleAI">Single AI</a>
         </div>
     </div>
     <!-- -->
@@ -28,26 +44,33 @@
       <h2>Available Games: </h2>
     </section>
 
-
     <!--Main game section -->
     <secton class="game">
     <div class="row top-bar">
         <h2 style = "color:white;">Game of Set</h2>
       </div>
       <div class="row">
-        <div class="large-2 columns">
+        <div class="large-3 columns gameInfo">
           <ul>
-            <li>Player 1</li>
+            <li id="player-name">Player 1</li>
             <li><input type="button" name="addSet" value="Add Set" id="addSet"></li>
-            <li id="score">Score: 0</li>
             <li id="numSets">Possible Combinations: </li>
+            <div id="score">
+
+            </div>
+            <div id="timer">
+
+            </div>
           </ul>
         </div>
-        <div class="large-8 large-centered columns end">
-          <div class="cards">
+        <div class="large-9 columns game end">
+          <div class="cards .nine">
+            <center id="waiting"><span>Waiting for other players...</span></center>
         </div>
       </div>
     </section>
+    <div class="requestFormContainer">
 
+    </div>
   </body>
 </html>

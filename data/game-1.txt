@@ -1,0 +1,1 @@
+Player Level,Color,Shape,Quantity,Shading,Time 

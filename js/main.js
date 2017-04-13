@@ -87,48 +87,11 @@ function printDeck() {
      possibleCombinations(currentCards);
 }
 
-function replaceSet(setToRemove) {
-    var newSet = [];
-    for (var card in deck) {
-        if (newSet.length < 3) {
-            if (cardsDealt.includes(deck[card]) == false) {
-                newSet.push(deck[card]);
-                cardsDealt.push(deck[card]);
-                //var r = deck.indexOf(deck[card]);
-                deck.splice(card,1);
-            }
-        }
-    }
-    for (var i = 0; i < newSet.length; i++) {
-        //remove from currentCards
-        var r = currentCards.indexOf(setToRemove[i]);
-        currentCards.splice(r,1);
-        currentCards.push(newSet[i]);
-        //add to screen
-        $("#" + setToRemove[i].id).attr("id", newSet[i].id);
-        $("#" + newSet[i].id).attr('src', newSet[i].imageSource);
-        $("#" + newSet[i].id).toggleClass("shaded");
-    }
-    possibleCombinations(currentCards);
-}
 
-var game;
-var deck;
+
 
 function main() {
     //create new game
-    game = new Game();
-    //generate deck
-    game.generateDeck();
-    //printDeck(game.deck);
-    game.deck = shuffle(game.deck); //shuffle game deck
-    //set game.deck to global variable
-    deck = game.deck;
-    //print deck which puts initial nine cards on board
-    printDeck(game.deck);
-
-    printCurrentCards();
-
     //event handler for clicking on card
     $(".cards > img").click(function() {
         //call function that adds to array of cards picked so far

@@ -1,10 +1,14 @@
+li {
+  list-style-type: none;
+  font-size: 15px;
+}
+
 .cards {
   width: 100%;
 }
 .cards img{
 
-  height: 33.3%;
-  width: 33.3%;
+
   border: 1px solid #000;
 
   position: relative;
@@ -15,10 +19,6 @@
   box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
 
 
-
-
-
-
     /*display: table-cell; */
     /*height: 135px;
     width: 100px; */
@@ -27,17 +27,27 @@
     padding: 10px;
     /*background: url(../images/card.png) no-repeat;*/
 }
+
+.twelve {
+  height: 25%;
+  width: 25%;
+}
+
+.fifteen {
+  height: 20%;
+  width: 20%;
+}
+
 img:hover, img.shaded {
 	background-color: #d3d3d3;
   opacity:0.5;
 }
 
-
 #canvas {
 	width: 100%;
 }
 .columns{
-  height: 400px;
+  height: 600px;
   border: 1px solid #000;
 }
 
@@ -46,4 +56,12 @@ img:hover, img.shaded {
 }
 .choose-multi{
   display: none;
+}
+
+.requestSetForm{
+  background-color: #fff;
+  height: 250px;
+  width: 500px;
+  z-index: 100;
+  position: absolute;
 }

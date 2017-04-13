@@ -19,7 +19,7 @@ function checkOracleSet(cardCombo) {
       the values of the arrays in setCheck are all the same or all different
     */
     for (var i = 0; i < cardCombo.length; i++) {
-        console.log(" Shape: " + cardCombo[i].shape + " Shading: " + cardCombo[i].shading + " Number: " + cardCombo[i].number + " Color: " + cardCombo[i].color);
+        //console.log(" Shape: " + cardCombo[i].shape + " Shading: " + cardCombo[i].shading + " Number: " + cardCombo[i].number + " Color: " + cardCombo[i].color);
         for (var prop in cardCombo[i]) {
             if ((prop != 'imageSource')) {
                 if ((prop != 'id')) {
@@ -45,7 +45,7 @@ function checkOracleSet(cardCombo) {
         oracleSetCheck[prop] = [];
     }
     if(isSet){
-        console.log("there is a set");
+        //console.log("there is a set");
         setCount++;
     }
     //return true;
@@ -59,11 +59,11 @@ function printCombination(arr, n, r)
 {
     // A temporary array to store all combination one by one
     var data = [];
- 
+
     // Print all combination using temporary array 'data[]'
     combinationUtil(arr, n, r, 0, data, 0);
 }
- 
+
 /* arr[]  ---> Input Array
    n      ---> Size of input array
    r      ---> Size of a combination to be printed
@@ -78,7 +78,7 @@ function combinationUtil(arr, n, r, index, data, i)
         //check if current combination is set
         //if yes, increment setCount
         checkOracleSet(data);
-        console.log(setCount);
+        //console.log(setCount);
         /*
         for (var j=0; j<r; j++)
         	console.log(data[j]);
@@ -87,15 +87,15 @@ function combinationUtil(arr, n, r, index, data, i)
         //printf("\n");
         return;
     }
- 
+
     // When no more elements are there to put in data[]
     if (i >= n)
         return;
- 
+
     // current is included, put next at next location
     data[index] = arr[i];
     combinationUtil(arr, n, r, index+1, data, i+1);
- 
+
     // current is excluded, replace it with next (Note that
     // i+1 is passed, but index is not changed)
     combinationUtil(arr, n, r, index, data, i+1);
