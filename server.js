@@ -1,3 +1,18 @@
+/*
+  Need to modularize many functions to limit code resue such as
+  - calls to set deck and game for all players in room
+  - add player to room
+  - need to think of flow of control for this
+  e.g:
+  - client decdes to add AI to game
+  - emits message to server asking to add AI
+  - call generalize add to Room function
+  - have a generalize run AI on game function
+  - generalzed create game function
+  etc...
+*/
+
+
 var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
@@ -79,12 +94,12 @@ io.sockets.on('connection', function(socket) {
     });
 
     //when player picks mlti
-    socket.on('multiplayer', function(name, experience,gender) {
+    socket.on('multiplayer', function(name, experience, gender) {
         //on load screen user has picked multiplayer mode
         //increase multiconnections
         multiConnections++;
         //create player object and send socket to constructor
-        var player = new Player(socket, name, experience,gender);
+        var player = new Player(socket, name, experience, gender);
 
         multiplayers.push(player);
         //add player to room
@@ -93,12 +108,12 @@ io.sockets.on('connection', function(socket) {
         socket.emit('updateScreenName', name);
         //if room members have reached limit
         if (room.players.length == room.limit) {
-          fs.writeFile("data/game-"+gameNum+".txt", "Player Level,Color,Shape,Quantity,Shading,Time \n", function(err) {
-            if(err) {
-              return console.log(err);
-            }
-            console.log("The file was saved!");
-          });
+            fs.writeFile("data/game-" + gameNum + ".txt", "Player Level,Color,Shape,Quantity,Shading,Time \n", function(err) {
+                if (err) {
+                    return console.log(err);
+                }
+                console.log("The file was saved!");
+            });
             //create new game object
             game = new GameObj(1);
             //store intial 12 cards from print deck function returned as string of html elements
@@ -158,11 +173,11 @@ io.sockets.on('connection', function(socket) {
 
     //if player has agreedto add send that set to all clients in room
     socket.on('agreedToAddSet', function() {
-      setRequest++;
-      if(setRequest == room.limit){
-        for (p in room.players)
-            room.players[p].socket.emit('addSet');
-      }
+        setRequest++;
+        if (setRequest == room.limit) {
+            for (p in room.players)
+                room.players[p].socket.emit('addSet');
+        }
     });
     //calls to change card sizes in all game room
     socket.on('setCardSizes', function() {
@@ -188,81 +203,137 @@ io.sockets.on('connection', function(socket) {
         t = t0 - t1;
         printTofile(lvl, checks, t);
     });
-    socket.on('printWrongSet',function(set){
-      var checks = [],
-          lvl, t;
-      for (prop in set) {
-          if (allValuesSame(set[prop])) {
-              checks.push("same");
-          }
-          else if (unique(set[prop])){
-              checks.push("unique");
-          }
-          else if (allValuesSame(set[prop]) == false && unique(set[prop]) == false){
-            checks.push("WRONG");
-          }
-      }
-      for (p in room.players) {
-          if (room.players[p].socket == socket)
-              lvl = room.players[p].level;
-      }
-      t1 = new Date().getTime();
-      t = t1 - t0;
-      printTofile(lvl, checks, t);
-    });
-    socket.on('singleAI',function(num){
-          var agent = new AI(socket,num);
-          aiRoom = new Room("AI");
-          aiRoom.addPlayer(agent);
-          game = new GameObj(1);
-          //store intial 12 cards from print deck function returned as string of html elements
-          var im = game.deck.printDeck();
-          aiRoom.game = game;
-          agent.game = game;
-          for (p in aiRoom.players) {
-              aiRoom.players[p].socket.emit('deck', im, game.deck.cardsDealt);
-              aiRoom.players[p].socket.emit('setGame', game);
-          }
-          while(game.deck.cardsDealt.length < 81){
-            agent.alg2(game.deck.currentCards);
-            if(agent.set.length > 0){
-              console.log("set found");
-              agent.setsFound.push(agent.set);
-              setTimeout(replaceSet(agent.set),5000000000000000000);
+    socket.on('printWrongSet', function(set) {
+        var checks = [],
+            lvl, t;
+        for (prop in set) {
+            if (allValuesSame(set[prop])) {
+                checks.push("same");
+            } else if (unique(set[prop])) {
+                checks.push("unique");
+            } else if (allValuesSame(set[prop]) == false && unique(set[prop]) == false) {
+                checks.push("WRONG");
             }
-            console.log(game.deck.cardsDealt.length + " cards remain");
         }
-        console.log(agent.setsFound[0]);
-        console.log(agent.setsFound[1]);
+        for (p in room.players) {
+            if (room.players[p].socket == socket)
+                lvl = room.players[p].level;
+        }
+        t1 = new Date().getTime();
+        t = t1 - t0;
+        printTofile(lvl, checks, t);
+    });
+
+    /*
+      Single AI is run
+    */
+    socket.on('singleAI', function(num) {
+        var agent = new AI(socket, num);
+        aiRoom = new Room("AI");
+        aiRoom.addPlayer(agent);
+        game = initalizeAIGame(aiRoom, agent);
+        console.log("this is the initial set of current cards");
+        console.log(game.deck.currentCards);
+        while (game.deck.cardsDealt.length < 81) {
+            game = runAI(agent, game);
+        }
+        console.log(agent.setsFound.length + " sets found");
+    });
+
+
+    /*
+    client picked to play an AI, recieves paramater of algo to use
+     */
+    socket.on('playAI', function(alg) {
+        var agent = new AI(null, alg);
+        game = new GameObj(1);
+        var im = game.deck.printDeck();
+        for (p in room.players) {
+            room.players[p].socket.emit('deck', im, game.deck.cardsDealt);
+            room.players[p].socket.emit('setGame', game);
+        }
     });
 });
 
 
-function replaceSet(setToRemove){
-  console.log('replacing set');
+
+function initalizeAIGame(room, agent) {
+    game = new GameObj(1);
+    //store intial 12 cards from print deck function returned as string of html elements
+    var im = game.deck.printDeck();
+    room.game = game;
+    agent.game = game;
+    for (p in aiRoom.players) {
+        room.players[p].socket.emit('deck', im, game.deck.cardsDealt);
+        room.players[p].socket.emit('setGame', game);
+    }
+    return game;
+}
+
+
+function runAI(agent, game) {
+    //determine which alg 1-5 to run
+    if (agent.alg3(game.deck.currentCards)) {
+        console.log("set found");
+        agent.setsFound.push(agent.set);
+        game = replaceSet(agent.set, game);
+        console.log(game.deck.currentCards.length + " cards on screen");
+        console.log(game.deck.cardsDealt.length + " cards dealt");
+    } else {
+        console.log("no set found so need to add in these cards: ");
+        console.log(game.deck.currentCards);
+        game = addSetToDealt(game);
+        console.log("now that has added here are the cards");
+        console.log(game.deck.currentCards);
+    }
+    return game;
+}
+
+function replaceSet(setToRemove, game) {
+    console.log('replacing set');
     var newSet = [];
-    for (var card in game.deck.cards) {
-        if (newSet.length < 3) {
-            if (game.deck.cardsDealt.indexOf(game.deck.cards[card]) == -1) {
-                newSet.push(game.deck.cards[card]);
-                game.deck.cardsDealt.push(game.deck.cards[card]);
-                game.deck.cards.splice(card, 1);
+    console.log(game.deck.currentCards.length + " current cards while in replace set");
+    if (game.deck.currentCards.length <= 12) {
+        console.log("creating new 3 cards to add to cardsdealth and remove from deck.cards, and adding to newSet array");
+        for (var card in game.deck.cards) {
+            if (newSet.length < 3) {
+                if (game.deck.cardsDealt.indexOf(game.deck.cards[card]) == -1) {
+                    newSet.push(game.deck.cards[card]);
+                    game.deck.cardsDealt.push(game.deck.cards[card]);
+                    game.deck.cards.splice(card, 1);
+                }
             }
         }
+        for (var i = 0; i < newSet.length; i++) {
+
+            //remove set found from currentCards
+            var r = game.deck.currentCards.indexOf(setToRemove[i]);
+            console.log("about to remove " + setToRemove[i].id + " from currentCards");
+            game.deck.currentCards.splice(r, 1);
+            console.log("adding " + newSet[i] + " to currentCards");
+            game.deck.currentCards.push(newSet[i]);
+            //add to screen
+        }
+        for (p in aiRoom.players) {
+            aiRoom.players[p].socket.emit('removeSetFromScreen', newSet, setToRemove);
+        }
+    } else if (game.deck.currentCards.length >= 15) {
+        for (var i = 0; i < 3; i++) {
+            console.log("removed set to remove from current cards for player who chose set");
+            //remove set found from currentCards
+            var r = game.deck.currentCards.indexOf(setToRemove[i]);
+            console.log("about to remove " + setToRemove[i].id + " from currentCards");
+            game.deck.currentCards.splice(r, 1);
+            //add to screen
+        }
     }
-    for (var i = 0; i < newSet.length; i++) {
-      console.log("removed set to remove from current cards for player who chose set");
-        //remove set found from currentCards
-        var r = game.deck.currentCards.indexOf(setToRemove[i]);
-        console.log("about to remove " + setToRemove[i].id + " from currentCards");
-        game.deck.currentCards.splice(r, 1);
-        game.deck.currentCards.push(newSet[i]);
-        //add to screen
-    }
-    for (p in aiRoom.players) {
-        aiRoom.players[p].socket.emit('removeSetFromScreen', newSet, setToRemove);
-    }
+    return game;
 }
+
+function createGameFile() {
+
+}
+
 
 //server side functions
 //checks if all values in array are the same
@@ -289,6 +360,20 @@ function unique(arr) {
     return true;
 }
 
+function addSetToDealt(game) {
+    console.log("adding 3 cards to set");
+    console.log(game.deck.currentCards.length + " cards ");
+    for (var card in game.deck.cards) {
+        if (card < 3) {
+            game.deck.currentCards.push(game.deck.cards[card]);
+            game.deck.cardsDealt.push(game.deck.cards[card]);
+            game.deck.cards.splice(card, 1);
+        }
+    }
+    return game;
+}
+
+
 
 var path = "/Users/pgringer/Game-of-Set-Research-/data/game.txt";
 
@@ -296,7 +381,7 @@ var path = "/Users/pgringer/Game-of-Set-Research-/data/game.txt";
 function printTofile(lvl, checks, time) {
     var row = lvl + "," + checks[0] + "," + checks[1] + "," +
         checks[2] + "," + checks[3] + "," + time + "\n";
-    fs.appendFile('data/game-'+gameNum+'.txt', row, function(err) {
+    fs.appendFile('data/game-' + gameNum + '.txt', row, function(err) {
         if (err)
             console.log(err);
     });

@@ -93,7 +93,11 @@ $(document).ready(function() {
         //emit message to server
         socket.emit('singleAI', 1);
     });
-
+    $("#playAI-button").click(function(){
+      var alg = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
+      console.log(alg);
+      socket.emit("playAI",alg);
+    });
 });
 
 socket.on('connectToRoom', function(data) {

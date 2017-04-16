@@ -137,8 +137,6 @@ function removeSet() {
 }
 
 function addSetToDealt() {
-
-
     for (var card in game.deck.cards) {
         if (card < 3) {
             $(".cards").append("<img src='" + game.deck.cards[card].imageSource + "' id = '" + game.deck.cards[card].id + "' >");
