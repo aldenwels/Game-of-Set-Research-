@@ -1,4 +1,5 @@
-var Room = function(name){
+var Room = function(name,type){
+  this.type = type;
   this.name = name;
   this.players = [];
   this.limit = 2;

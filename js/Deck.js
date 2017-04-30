@@ -74,6 +74,7 @@ Deck.prototype.shuffle = function() {
 Deck.prototype.printDeck = function() {
     var printedCards = [];
     for (var card in this.cards) {
+        console.log("this is card " + card);
         if (card < 12) {
             //display nine at a time(for now)
             //$(".cards").append("<img src='" + this.deck[card].imageSource + "' id = '" + this.deck[card].id + "' </img>");
@@ -83,8 +84,10 @@ Deck.prototype.printDeck = function() {
             this.cardsDealt.push(this.cards[card]);
             var r = this.cards.indexOf(this.cards[card]);
             this.cards.splice(r, 1);
+
         }
     }
+    console.log("line 88 " + this.cardsDealt.length);
     return printedCards;
     //this.possibleCombinations(currentCards);
 }

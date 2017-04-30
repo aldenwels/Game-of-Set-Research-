@@ -1,0 +1,1 @@
+Game,Player Level,Gender,Color,Shape,Quantity,Shading,Time 

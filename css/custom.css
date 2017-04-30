@@ -1,3 +1,15 @@
+
+
+.instruction-image-list li {
+  display: inline;
+}
+
+#instruction-image{
+  width: 200px;
+  height: 200px;
+}
+
+
 li {
   list-style-type: none;
   font-size: 15px;
@@ -14,7 +26,6 @@ li {
   position: relative;
   float: left;
   border-radius: 10px;
-  background: #fff;
   -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
   box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
 
@@ -47,7 +58,7 @@ img:hover, img.shaded {
 	width: 100%;
 }
 .columns{
-  height: 600px;
+  height: 700px;
   border: 1px solid #000;
 }
 

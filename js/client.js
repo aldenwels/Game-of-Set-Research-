@@ -10,6 +10,10 @@ socket.on('removeWaiting',function(){
   $('#waiting').html("");
 });
 
+socket.on('testing',function(data){
+  console.log(data);
+});
+
 //log message from server
 socket.on('serverMsg', function(data) {
     console.log(data);
@@ -20,11 +24,11 @@ socket.on('setGame', function(g) {
     game = g;
     console.log(game);
     //call to possible combination on cards dealt
-    possibleCombinations(game.deck.cardsDealt);
+    possibleCombinations(game.deck.currentCards);
 });
 
 socket.on('updateScreenName', function(name) {
-    $("#player-name").html(name);
+    $("#player-name").html("Player: " + name);
 });
 
 //prints cards to screen
@@ -43,6 +47,7 @@ socket.on('deck', function(data) {
 });
 
 socket.on('removeSetFromScreen', function(newSet, setToRemove) {
+    console.log(" on cli NEW SET IS THIS BIG" + newSet.length);
   console.log("removing set froms creen");
     //actually changes client side html elements to new set of cards
     if (newSet.length == 0) {
@@ -62,8 +67,13 @@ socket.on('removeSetFromScreen', function(newSet, setToRemove) {
 
 socket.on('changeClientScore', function(names, scores) {
     $('#score').empty();
-    $('#score').append("<li>" + names[0] + " : " + scores[0] + "</li>");
-    $('#score').append("<li>" + names[1] + " : " + scores[1] + "</li>");
+    if(names.length <= 1){
+      $('#score').append("<li>" + names[0] + " score : " + scores[0] + "</li>");
+    }
+    else{
+      $('#score').append("<li>" + names[0] + " : " + scores[0] + "</li>");
+      $('#score').append("<li>" + names[1] + " : " + scores[1] + "</li>");
+    }
 });
 
 var multiConnections;
@@ -71,20 +81,25 @@ var multiConnections;
 $(document).ready(function() {
     $("#single").click(function() {
         $(".pickMode").hide();
-        console.log(100);
         //emit message to server
-        socket.emit('singleplayer', {
-            msg: 'chose single player'
-        });
+        socket.emit('singleplayer',$("#name").val(), $("#experience").val(),$("#gender").val());
         //main();
         $(".game").show();
     });
     $("#multi").click(function() {
-        $(".pickMode").hide();
-        $(".game").show();
-        console.log(100);
-        //emit message to server
-        socket.emit('multiplayer', $("#name").val(), $("#experience").val(),$("#gender").val());
+        socket.emit('checkIfRoomAvailable');
+        socket.on('roomAvailable',function(data){
+          if(data){
+            $(".pickMode").hide();
+            $(".game").show();
+            //emit message to server
+            socket.emit('multiplayer', $("#name").val(), $("#experience").val(),$("#gender").val());
+          }
+          else{
+            alert('multiplayer room is full you are going to have to wait');
+          }
+        });
+
     });
     $("#singleAI").click(function() {
         $(".pickMode").hide();
@@ -106,7 +121,13 @@ socket.on('connectToRoom', function(data) {
 
 socket.on('updateGameState', function(update_game) {
     game = update_game;
-    console.log(game);
+    var amount = possibleCombinations(game.deck.currentCards);
+    if(amount <= 0 && game.deck.cardsDealt.length == 81){
+      alert("GAME OVER");
+      $(".cards").empty();
+      $(".game").hide();
+      $(".pickMode").show();
+    }
 });
 
 socket.on('displayTimer', function(time) {
@@ -116,7 +137,7 @@ socket.on('displayTimer', function(time) {
 });
 
 socket.on('askToAddSet', function() {
-    var form = "<center><form class='requestSetForm'>Other player requested to add Set do yoy agree <input type='button' id='yes' value='yes'></input> <input type='button' value='no'></input></center> </form>"
+    var form = "<center><form class='requestSetForm'>Other player requested to add Set do you agree <input type='button' id='yes' value='yes'></input> <input type='button' value='no'></input></center> </form>"
     $(".requestFormContainer").append(form);
     $("#yes").click(function() {
         $(".requestFormContainer").empty();

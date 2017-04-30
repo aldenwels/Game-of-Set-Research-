@@ -3,17 +3,25 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/foundation.css">
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/oracle.js"></script>
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="js/socket.io-1.4.5.js"></script>
     <script type="text/javascript" src="js/client.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
-    <link rel="stylesheet" href="css/custom.css">
-    <link rel="stylesheet" href="css/foundation.css">
+    <script type="text/javascript" src="js/foundation.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
   </head>
   <body>
     <!-- Section to pick option -->
+    <div class="row">
+      <center class="instructions">
+        <a href="instructions.html" target="_blank" style="font-size: 25px; text-decoration: underline;">Instructions on How to play</a>
+      </center>
+    </div>
+
     <div class="row pickMode">
         <div class="large-6 large-centered columns">
             <ul>
@@ -34,18 +42,19 @@
             </ul>
             <h2>PICK MODE</h2>
             <a id="single">Single Player</a>
+<!--
             <a id="multi">Multi Player</a>
+
             <a id="singleAI">Single AI</a>
+          -->
         </div>
     </div>
     <!-- -->
     <!-- End main game section -->
-    <section class="choose-multi">
-      <h2>Available Games: </h2>
-    </section>
+
 
     <!--Main game section -->
-    <secton class="game">
+    <section class="game">
     <div class="row top-bar">
         <h2 style = "color:white;">Game of Set</h2>
       </div>
@@ -53,7 +62,7 @@
         <div class="large-3 columns gameInfo">
           <ul>
             <li id="player-name">Player 1</li>
-            <li><input type="button" name="addSet" value="Add Set" id="addSet"></li>
+            <li><input type="button" name="addSet" value="Add Cards" id="addSet"></li>
             <li id="numSets">Possible Combinations: </li>
             <div id="score">
 
@@ -61,19 +70,20 @@
             <div id="timer">
 
             </div>
-            <div class="playAI">
-              <input type="button" name="addAI" value="Play AI" id="playAI-button">
-            </div>
+
           </ul>
         </div>
         <div class="large-9 columns game end">
           <div class="cards .nine">
-            <center id="waiting"><span>Waiting for other players...</span></center>
         </div>
       </div>
     </section>
     <div class="requestFormContainer">
 
     </div>
+  </div>
+
+
+
   </body>
 </html>

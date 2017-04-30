@@ -1,0 +1,2 @@
+Game,Player Level,Gender,Color,Shape,Quantity,Shading,Time 
+single,Beginner,man,green-red-green,unique,1-1-2,unique,1004

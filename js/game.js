@@ -89,7 +89,7 @@ function checkIfSet() {
         //remove in main
     }
     else {
-        socket.emit("printWrongSet",setCheck);
+        socket.emit("printResult",setCheck);
         removeSet();
     }
 }
@@ -124,8 +124,11 @@ function removeSet() {
   console.log(cardsPicked);
     //toggles shaded card class
     for (var i = 0; i < cardsPicked.length; i++) {
+
         $("#" + cardsPicked[i].id).toggleClass("shaded");
+        $("#" + cardsPicked[i].id).effect( "shake" );
     }
+
     //emits remove set to message so it it removed for all clients in room
     socket.emit('removeSet', cardsPicked);
     //empties this clients cardsPicked
@@ -168,10 +171,12 @@ function replaceSet(setToRemove) {
     console.log(game.deck.currentCards);
     var newSet = [];
 
-    if (game.deck.currentCards.length <= 12) {
+    if (game.deck.currentCards.length <= 12 && game.deck.cardsDealt.length < 81) {
       //generate new set of cards
       console.log("Generating new set on game.js");
-        for (var card in game.deck.cards) {
+      console.log("This many cards left in deck: " + game.deck.cards.length);
+        for (var i = 0; i < 3; i++) {
+           var card = 0;
             if (newSet.length < 3) {
                 if (game.deck.cardsDealt.includes(game.deck.cards[card]) == false) {
                     newSet.push(game.deck.cards[card]);
@@ -201,6 +206,7 @@ function replaceSet(setToRemove) {
     }
     //console.log(game.deck.cardsDealt);
     console.log("call to remove");
+    console.log("NEW SET IS THIS BIG" + newSet);
     socket.emit('removeFromScreen', newSet, setToRemove);
     //possibleCombinations(game.deck.currentCards);
     socket.emit('updateServerGame', game);
@@ -211,6 +217,7 @@ function replaceSet(setToRemove) {
         setCheck[prop] = [];
     }
     cardsPicked = [];
+    console.log(game);
 }
 
 

@@ -1,0 +1,2 @@
+Game,Player Level,Gender,Color,Shape,Quantity,Shading,Time 
+multi,Beginner,man,green-blue-green,unique,3-2-2,blank-blank-striped,3015

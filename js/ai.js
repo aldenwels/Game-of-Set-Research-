@@ -1,22 +1,26 @@
 var setCount = 0;
+var glbl = require("./global");
 var properties = {
-  shape: ['rectangle','circle','triangle'],
-  shading: [
-  "blank",
-  "striped",
-  "fill"
-  ],
-  color: [
-  "blue",
-  "red",
-  "green"
-  ],
-  number: [
-  "1",
-  "2",
-  "3"
-]
-};
+    shape: ['rectangle', 'circle', 'triangle'],
+    shading: ["blank","striped","fill"],
+    color: ["blue","red","green"],
+    number: ["1","2","3"]
+},
+shadePair = [],
+shapePair = [],
+numberPair = [],
+colorPair = [],
+//Card c = new Card();
+shading = "",
+shape =  "",
+number =  "",
+color = "",
+
+shapes =["rectangle","circle","triangle"],
+shadings = ["blank","striped","fill"],
+colors =  ["blue","red","green"
+],
+numbers = ["1","2","3"];
 var AI = function(socket, number) {
     this.$ = require('cheerio');
     this.socket = socket;
@@ -31,6 +35,7 @@ var AI = function(socket, number) {
         number: [],
         shading: []
     };
+
     this.alg1 = function(cardsDealt) {
         console.log("Running alg1");
         var cardCombination = [];
@@ -93,42 +98,12 @@ var AI = function(socket, number) {
     }
 
     this.computeThird = function(j, c1, c2, cardsDealt) {
-        var shadePair = [];
-        var shapePair = [];
-        var numberPair = [];
-        var colorPair = [];
 
-        //Card c = new Card();
-        var shading = "";
-        var shape = "";
-        var number = "";
-        var color = "";
-
-        var shapes = [
-            "rectangle",
-            "circle",
-            "triangle"
-        ];
-        var shadings = [
-            "blank",
-            "striped",
-            "fill"
-        ];
-        var colors = [
-            "blue",
-            "red",
-            "green"
-        ];
-        var numbers = [
-            "1",
-            "2",
-            "3"
-        ];
 
         //if the property of card 1 and 2 are the same, the third card's property must also be the same
         if (c1.shading == c2.shading) {
             //c.shading = c1.shading;
-            shading = c1.shading;
+            glbl.shading = c1.shading;
             //if they are different, the third card's property must be different, so
             //push the two card onto an array and compare this array with the original set of 3 options
             //return the the property that is different
@@ -343,12 +318,12 @@ var AI = function(socket, number) {
 
         for (var prop in this.oracleSetCheck) {
 
-            if (allValuesSame(this.oracleSetCheck[prop])) {
+            if (glbl.allValuesSame(this.oracleSetCheck[prop])) {
                 console.log("prop: " + prop + "; " + this.oracleSetCheck[prop] + "all same");
                 allSame++;
                 //can return false here to save time
             }
-            if (unique(this.oracleSetCheck[prop])) {
+            if (glbl.unique(this.oracleSetCheck[prop])) {
                 console.log("prop: " + prop + "; " + this.oracleSetCheck[prop] + "all different");
                 allDiff++;
             }
@@ -590,28 +565,7 @@ var AI = function(socket, number) {
     }
 };
 
-function allValuesSame(arr) {
-    for (var i = 0; i < arr.length; i++) {
-        for (var j = i + 1; j < arr.length; j++) {
-            if (arr[i] !== arr[j]) {
-                return false;
-            }
-        }
-    }
 
-    return true;
-}
-//checks if all values are unique
-function unique(arr) {
-    for (var i = 0; i < arr.length; i++) {
-        for (var j = i + 1; j < arr.length; j++) {
-            if (arr[i] === arr[j]) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
 
 
 module.exports = AI;

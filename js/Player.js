@@ -1,6 +1,6 @@
-var Player = function(id,name,level,gender){
-  this.socket = id;
-  this.id = id.id;
+var Player = function(socket,name,level,gender){
+  this.socket = socket;
+  this.id = socket.id;
   this.game;
   this.score = 0;
   this.name = name;

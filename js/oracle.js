@@ -39,14 +39,15 @@ function checkOracleSet(cardCombo) {
             //can return false here to save time
         }
     }
-
-    //clear set check array
-    for (var prop in oracleSetCheck) {
-        oracleSetCheck[prop] = [];
-    }
     if(isSet){
         //console.log("there is a set");
         setCount++;
+        console.log("this is a  set");
+        console.log(oracleSetCheck);
+    }
+    //clear set check array
+    for (var prop in oracleSetCheck) {
+        oracleSetCheck[prop] = [];
     }
     //return true;
 }
@@ -103,9 +104,11 @@ function combinationUtil(arr, n, r, index, data, i)
 
 function possibleCombinations(cardsDealt){
 	//var arr = [6,7,9,1,2,];
+    setCount = 0;
     var r = 3;
     var n = cardsDealt.length;
     //printCombination(arr, n, r);
     printCombination(cardsDealt, n, r);
     $('#numSets').html("Possible Combinations: " + setCount);
+    return setCount;
 }

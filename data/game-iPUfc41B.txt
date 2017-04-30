@@ -1,0 +1,5 @@
+Game,Player Level,Gender,Color,Shape,Quantity,Shading,Time 
+single,Beginner,man,blue-green-green,triangle-triangle-circle,2-2-1,blank-blank-striped,3015
+single,Beginner,man,blue,triangle,unique,unique,42172
+single,Beginner,man,red-green-green,circle,1-2-1,unique,5570
+single,Beginner,man,green,unique,unique,unique,15495

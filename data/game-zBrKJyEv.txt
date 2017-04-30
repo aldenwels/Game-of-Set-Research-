@@ -1,0 +1,2 @@
+Game,Player Level,Gender,Color,Shape,Quantity,Shading,Time 
+single,Beginner,man,unique,triangle-circle-circle,3-3-1,striped-striped-fill,1002

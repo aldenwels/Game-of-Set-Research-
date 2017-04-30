@@ -1,0 +1,2 @@
+Game,Player Level,Gender,Color,Shape,Quantity,Shading,Time 
+single,Beginner,man,green,circle-rectangle-rectangle,unique,blank-striped-blank,3011

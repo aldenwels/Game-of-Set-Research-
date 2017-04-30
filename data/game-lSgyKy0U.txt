@@ -1,0 +1,2 @@
+Game,Player Level,Gender,Color,Shape,Quantity,Shading,Time 
+single,Beginner,man,unique,triangle-rectangle-rectangle,1,striped-fill-striped,2006

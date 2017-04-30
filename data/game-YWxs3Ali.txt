@@ -1,0 +1,4 @@
+Game,Player Level,Gender,Color,Shape,Quantity,Shading,Time 
+multi,Beginner,man,red-blue-blue,rectangle-rectangle-triangle,unique,unique,9041
+multi,Beginner,man,red-blue-blue,rectangle-circle-rectangle,1-2-1,blank-blank-fill,NaN
+multi,Beginner,man,unique,unique,2,unique,NaN
